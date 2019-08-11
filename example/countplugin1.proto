@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package countplugin1;
+
+service Counter {
+    rpc Count(Count.Request) returns (Count.Response);
+    rpc GetCount(GetCount.Request) returns (GetCount.Response);
+}
+
+message Count {
+    message Request {
+    }
+    message Response {
+    }
+}
+
+message GetCount {
+    message Request {
+    }
+    message Response {
+        int64 count = 1;
+    }
+}
