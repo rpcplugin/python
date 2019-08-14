@@ -1,9 +1,15 @@
+import logging
+import sys
+
 import rpcplugin
 import countplugin1_pb2
 import countplugin1_pb2_grpc
 
 
 def main():
+    logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+    logging.info("python count plugin server starting up")
+
     rpcplugin.serve(
         handshake=rpcplugin.Handshake(
             cookie_key="COUNT_PLUGIN_COOKIE",
@@ -12,8 +18,8 @@ def main():
         proto_versions={
             1: CountPlugin1,
         },
+        signal_handlers=False,  # temporarily while debugging
     )
-    pass
 
 
 class CountPlugin1(countplugin1_pb2_grpc.CounterServicer):
