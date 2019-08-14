@@ -1,6 +1,7 @@
 from concurrent import futures
 import os
 import signal
+import sys
 import time
 
 import grpc
@@ -77,7 +78,9 @@ def serve(
 
     # This handshake line tells the client where to connect and what protocol
     # to talk when it does.
-    print("1|%d|tcp|127.0.0.1:%d|grpc|%s" % (v, port, str(auto_cert_str)))
+    sys.stdout.write("1|%d|tcp|127.0.0.1:%d|grpc|%s\n" %
+                     (v, port, str(auto_cert_str)))
+    sys.stdout.flush()
 
     while True:
         time.sleep(60 * 60 * 24)
