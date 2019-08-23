@@ -26,7 +26,7 @@ def generate_certificate():
         .issuer_name(name)
         .public_key(key.public_key())
         .serial_number(1000)
-        .not_valid_before(now - datetime.timedelta(seconds=-30))
+        .not_valid_before(now - datetime.timedelta(seconds=30))
         .not_valid_after(now + datetime.timedelta(hours=262980))
         .add_extension(basic_contraints, False)
         .sign(key, hashes.SHA256(), default_backend())
