@@ -32,7 +32,7 @@ class CountPlugin1(countplugin1_pb2_grpc.CounterServicer):
         return countplugin1_pb2.Count.Response()
 
     def GetCount(self, request, context):
-        return countplugin1_pb2.Count.Response(count=self.count)
+        return countplugin1_pb2.GetCount.Response(count=self.count)
 
 
 main()
