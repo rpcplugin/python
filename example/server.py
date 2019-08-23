@@ -18,7 +18,6 @@ def main():
         proto_versions={
             1: CountPlugin1,
         },
-        signal_handlers=False,  # temporarily while debugging
     )
 
 
