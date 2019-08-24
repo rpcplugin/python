@@ -1,11 +1,12 @@
 import base64
-import datetime
 from cryptography import x509
 from cryptography.x509.oid import NameOID
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
+import datetime
+import six
 
 
 def generate_certificate():
@@ -16,7 +17,7 @@ def generate_certificate():
     )
 
     name = x509.Name([
-        x509.NameAttribute(NameOID.COMMON_NAME, "localhost")
+        x509.NameAttribute(NameOID.COMMON_NAME, six.text_type("localhost"))
     ])
     basic_contraints = x509.BasicConstraints(ca=True, path_length=0)
     now = datetime.datetime.utcnow()
@@ -39,3 +40,18 @@ def generate_certificate():
     )
 
     return [key_pem, cert_pem]
+
+
+def raw_base64_to_pem_cert(s):
+    # We'll first round-trip through the base64 library to normalize any
+    # required padding, which not all server implementations include when
+    # generating their raw base64 certs.
+    s = base64.standard_b64encode(base64.standard_b64decode(s+'==='))
+
+    l = 64
+    lines = (s[i:i+l] for i in range(0, len(s), l))
+    return (
+        '-----BEGIN CERTIFICATE-----\n' +
+        "\n".join(lines) +
+        '\n-----END CERTIFICATE-----\n'
+    )
