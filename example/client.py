@@ -29,7 +29,7 @@ def main():
             cookie_value="e8f9c7d7-20fd-55c7-83f9-bee91db2922b",
         ),
         proto_versions={
-            1: lambda chan: countplugin1_pb2_grpc.CounterStub(chan),
+            1: countplugin1_pb2_grpc.CounterStub,
         }
     )
 
@@ -49,6 +49,8 @@ def main():
 
     except KeyboardInterrupt:
         pass
+
+    plugin.close()
 
 
 main()
