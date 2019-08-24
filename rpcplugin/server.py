@@ -65,7 +65,16 @@ def serve(
         tls_credentials = creds
         auto_cert_str = cert_str
 
-    port = server.add_secure_port('0.0.0.0:0', tls_credentials)
+    transports = os.environ.get("PLUGIN_TRANSPORTS", "tcp").split(",")
+    port = None
+    for transport in transports:
+        if transport == "tcp":
+            port = server.add_secure_port('0.0.0.0:0', tls_credentials)
+            break
+    if port is None:
+        raise Exception(
+            "cannot support any transports offered by the plugin client"
+        )
 
     if signal_handlers:
         # Ignore interrupt signals, because they're probably being sent to

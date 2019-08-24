@@ -34,6 +34,7 @@ def start(
     environ = copy.copy(os.environ)
     environ[handshake.cookie_key] = handshake.cookie_value
     environ["PLUGIN_PROTOCOL_VERSIONS"] = version_strings
+    environ["PLUGIN_TRANSPORTS"] = "unix,tcp"
 
     auto_tls_cert = None
     if tls_credentials is None:
